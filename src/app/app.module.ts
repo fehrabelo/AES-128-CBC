@@ -7,6 +7,7 @@ import { AppComponent } from './app.component';
 import * as bootstrap from "bootstrap"
 // import { NgbModule, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { EncrDecrServiceService } from '../app/services/encr-decr-service.service';
+import { HttpClientModule } from '@angular/common/http';
 
 
 @NgModule({
@@ -16,7 +17,8 @@ import { EncrDecrServiceService } from '../app/services/encr-decr-service.servic
   imports: [
     BrowserModule,
     AppRoutingModule,
-    FormsModule
+    FormsModule,
+    HttpClientModule
   ],
   providers: [EncrDecrServiceService],
   bootstrap: [AppComponent]

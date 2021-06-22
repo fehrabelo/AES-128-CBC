@@ -3,9 +3,11 @@
 
 // testing online the data cryptographed: https://encode-decode.com/aes-128-cbc-encrypt-online/
 // tutorial: https://www.code-sample.com/2018/12/angular-7-cryptojs-encrypt-decrypt.html?m=1
+import * as CryptoJS from 'crypto-js';
 
 import { Component, OnInit } from '@angular/core';
 import { EncrDecrServiceService } from './services/encr-decr-service.service';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-root',
@@ -15,54 +17,51 @@ import { EncrDecrServiceService } from './services/encr-decr-service.service';
 export class AppComponent implements OnInit {
   title = 'EncryptionDecryptionSample';
 
+
+  // variables
   plainText: string;
   encryptText: string;
-
   encryptedData: any;
   decryptedData: any;
 
-  // the password must be hexadecimal
-  password = "156874HKSU8963KA"
-  // password = "PGYaM2CSvrgmjk2*"
+  //get client ip
+  ipAddress: any;
 
-  // data = [{
-  //   number: '4761739001010036',
-  //   name: 'Cleide Oliveira',
-  //   month: '12',
-  //   year: '22',
-  //   cvv: '123',
-  //   installment: '1'
-  // }];
-
-  // data = {
-  //   "orderCode": "string",
-  //   "cardNumber": "string",
-  //   "brand": "string",
-  //   "name": "string",
-  //   "month": "string",
-  //   "year": "string",
-  //   "securityCode": "string",
-  //   "installment": 0,
-  //   "attemptedPayment": "string",
-  //   "sessionId": "string",
-  //   "IpAddress": "string"
-  // };
-
-  data = { "OrderCode": "DCE5E71D", "CardNumber": "5545 7629 7954 0131", "Brand": "Master", "Name": "Juliana Talet", "Moth": "01", "Year": "2022", "SecurityCode": "579", "Installment": 2, "AttemptedPayment": "1", "SessionId": "Ojhoi-plokij786yhgyt-loki87yhgyt65", "IpAddress": "10.68.1.19" }
-  teste = "8uWb8e9AqP3VTZw72fJNHH63HPvoeB4SoeLizMEIr6bdu78Pw/mWO/xa6hRmfc7+I8swyLWcoLNSzhaRyCiO08bFhuEFzlJxNQzhv6OSvQCqrjQwDwnHSmj3dtyFxZ7P99TURO8D4CNNeA36ZuxPUeiT3fGqR8ro73SXjBj3SPL99J7OC5XymmRwG182Mwjisj8uBYO5Geq9gHbMl4lKCLYQFw1Djy+BsxTh+hmclAV/4HOTyQe5GMZiS9ZQ5Q8ZIBSgKj93G8C/eaRo/eXz1WBt0zisJnuw5EHgtPvnvqqBGzKwQBglN2lbnmIN4HKG499t8CNHUd/qn2jSCbcWIqOn8INz+SYp1Tnqk+IO0qQ="
-  constructor(private EncrDecr: EncrDecrServiceService) { }
+  constructor(private EncrDecr: EncrDecrServiceService,
+    private http: HttpClient) {
+    this.http.get<{ ip: string }>('https://jsonip.com')
+      .subscribe(data => {
+        console.log('th data', data);
+        this.ipAddress = data
+      })
+  }
 
   ngOnInit() { }
 
   encript() {
-    // the line bellow  passes array into json
-    let data1 = JSON.stringify(this.data);
-    this.encryptedData = this.EncrDecr.set(this.password, data1);
+
+    // here i'm using an object, but can be the user input
+    const data = {
+      "orderCode": "70667F60",
+      "cardNumber": "5354426680114293",
+      "brand": "mastercard",
+      "name": "Paulo Guina Fagundes",
+      "month": "11",
+      "year": "22",
+      "securityCode": "132",
+      "installment": "1",
+      "IpAddress": this.ipAddress.ip
+    };
+
+    this.encryptedData = this.EncrDecr.encript(data);
     console.log(this.encryptedData);
+
+    // var ciphertext = CryptoJS.AES.encrypt(JSON.stringify(this.data), this.password).toString();
+    // console.log(ciphertext);
   }
 
   decript() {
-    this.decryptedData = this.EncrDecr.get(this.password, this.encryptedData);
+    this.decryptedData = this.EncrDecr.decript(this.encryptedData);
     console.log(this.decryptedData);
   }
 

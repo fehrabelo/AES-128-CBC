@@ -8,11 +8,11 @@
             </button>
             <br>
             <div class="form-group">
-                <label for="txtTextToConvert">Plain Text</label>
+                <label for="txtTextToConvert"></label>
                 <input type="text" class="form-control" placeholder="Enter text you want to encrypt" [(ngModel)]="plainText">
             </div>
 
-            <textarea class="form-control" readonly rows="3">{{encryptedData }}</textarea>
+            <textarea class="form-control" readonly rows="3">{{encryptedData}}</textarea>
             <br>
             <button type="button" class="btn btn-success float-right" (click)="encript()">Encrypt</button>
         </div>
@@ -22,11 +22,11 @@
             </button>
             <br>
             <div class="form-group">
-                <label for="txtTextToConvert">Encrypted Text</label>
+                <label for="txtTextToConvert"></label>
                 <input type="text" class="form-control" placeholder="Enter text you want to decrypt" [(ngModel)]="encryptText">
             </div>
 
-            <textarea class="form-control" readonly rows="3">{{decryptedData | json}}</textarea>
+            <textarea class="form-control" readonly rows="3">{{decryptedData}}</textarea>
             <br>
             <button type="button" class="btn btn-success float-right" (click)="decript()">Decrypt</button>
         </div>
